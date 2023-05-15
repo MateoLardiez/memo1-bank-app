@@ -1,6 +1,7 @@
 package com.aninfo;
 
 import com.aninfo.model.Account;
+import com.aninfo.model.Transaction;
 import com.aninfo.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -48,6 +49,14 @@ public class Memo1BankApp {
 		return ResponseEntity.of(accountOptional);
 	}
 
+
+//	@GetMapping("/transaction")
+//	public Collection<Transaction> getTransactions(){
+//		return accountService.getTransactions();
+//	}
+
+
+
 	@PutMapping("/accounts/{cbu}")
 	public ResponseEntity<Account> updateAccount(@RequestBody Account account, @PathVariable Long cbu) {
 		Optional<Account> accountOptional = accountService.findById(cbu);
@@ -74,6 +83,7 @@ public class Memo1BankApp {
 	public Account deposit(@PathVariable Long cbu, @RequestParam Double sum) {
 		return accountService.deposit(cbu, sum);
 	}
+
 
 	@Bean
 	public Docket apiDocket() {
