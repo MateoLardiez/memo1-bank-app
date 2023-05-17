@@ -19,7 +19,6 @@ public class AccountService {
 
     @Autowired
     private AccountRepository accountRepository;
-    private TransactionService transactionService;
 
     public Account createAccount(Account account) {
         return accountRepository.save(account);
@@ -51,39 +50,25 @@ public class AccountService {
         account.setBalance(account.getBalance() - sum);
         accountRepository.save(account);
 
-        Transaction transaction = new Transaction(cbu,"extraction",sum);
-        transactionService.createTransaction(transaction);
-
-
         return account;
     }
 
     @Transactional
     public Account deposit(Long cbu, Double sum) {
 
-        if (sum <= 0) {
+        if (sum < 1) {
             throw new DepositNegativeSumException("Cannot deposit negative sums");
         }
 
         Account account = accountRepository.findAccountByCbu(cbu);
+        if(sum > 1999 && sum < 5001){
+            sum += sum*0.1;
+        }else if(sum > 2000 && sum >5000){
+            sum += 500;
+        }
         account.setBalance(account.getBalance() + sum);
         accountRepository.save(account);
 
-        Transaction transaction = new Transaction(cbu,"deposit",sum);
-        transactionService.createTransaction(transaction);
-
-
-
         return account;
     }
-
-    public Collection<Transaction> getTransactions() {
-        return transactionService.getTransactions();
-    }
-
-//    public Account showTransactions(Long cbu){
-//        Account account = accountRepository.findAccountByCbu(cbu);
-//
-//    }
-
 }

@@ -1,5 +1,6 @@
 package com.aninfo.repository;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.aninfo.model.Transaction;
@@ -8,9 +9,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
 public interface TransactionRepository extends CrudRepository<Transaction, Long> {
-    Transaction findTransactionByNumber(Long cbu);
+    Collection<Transaction> findTransactionsByCbu(Long cbu);
 
-    @Override
-    List<Transaction> findAll();
 }
 
